@@ -1,7 +1,7 @@
 [project]
 name = "flet-printing"
-version = "0.1.0"
-description = "Native print dialog / share sheet for Flet apps — wraps the Flutter printing package"
+dynamic = ["version"]
+description = "Native print dialog, share sheet and PDF preview for Flet apps — wraps the Flutter printing package"
 readme = "README.md"
 requires-python = ">=3.10"
 authors = [
@@ -24,6 +24,9 @@ Homepage = "https://github.com/aiseed-dev/flet-printing"
 Documentation = "https://github.com/aiseed-dev/flet-printing"
 Repository = "https://github.com/aiseed-dev/flet-printing"
 Issues = "https://github.com/aiseed-dev/flet-printing/issues"
+
+[tool.setuptools.dynamic]
+version = { attr = "flet_printing.__version__" }
 
 [tool.setuptools.package-data]
 "flutter.flet_printing" = ["**/*"]

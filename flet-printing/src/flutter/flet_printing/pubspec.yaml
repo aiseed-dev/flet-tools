@@ -1,6 +1,6 @@
 name: flet_printing
 description: Native print dialog / share sheet for Flet apps (wraps the printing package)
-version: 0.1.0
+version: 0.2.0
 publish_to: none
 
 environment:

@@ -47,6 +47,22 @@ API:
 - `await printing.share_pdf(pdf, filename="document.pdf")` — open the
   platform share sheet (mobile) / save dialog (desktop).
 
+### PdfPreview — display a PDF with print/share built in
+
+```python
+from flet_printing import PdfPreview
+
+page.add(PdfPreview(src=pdf_bytes, pdf_file_name="document.pdf",
+                    expand=True))
+```
+
+Renders the PDF pages (scrollable) with an action bar: print and share
+buttons work out of the box. Properties: `src` (bytes or base64),
+`allow_printing`, `allow_sharing`, `use_actions`, `pdf_file_name`,
+`on_printed`/`on_shared` events. `can_change_page_format` /
+`can_change_orientation` are off by default (the PDF you pass is
+already laid out).
+
 There is deliberately no HTML-to-PDF here: `printing`'s `convertHtml` is
 deprecated. Generate the PDF yourself (e.g. headless Chrome for exact
 CJK typesetting) and pass the bytes to `print_pdf`.

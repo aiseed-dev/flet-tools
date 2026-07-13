@@ -1,11 +1,11 @@
-"""flet-printing の例: PDFを生成して印刷ダイアログ/共有シートを開く。
+"""flet-printing の例: PDFプレビュー表示と印刷ダイアログ/共有シート。
 
 実行: この examples/flet_printing_example で `flet build linux`（等）して
 ビルド済みアプリとして起動する（サードパーティ拡張は flet build が必要）。
 """
 import flet as ft
 
-from flet_printing import Printing
+from flet_printing import PdfPreview, Printing
 
 # 依存を増やさないための最小PDF（Hello worldの1頁・手書きPDF）
 MINIMAL_PDF = b"""%PDF-1.4
@@ -31,13 +31,15 @@ def main(page: ft.Page):
         status.value = "印刷しました" if ok else "キャンセルされました"
         page.update()
 
-    async def share_click(e):
-        await printing.share_pdf(MINIMAL_PDF, filename="example.pdf")
-
     page.add(
-        ft.FilledButton("印刷…", on_click=print_click),
-        ft.OutlinedButton("共有/保存…", on_click=share_click),
-        status,
+        ft.Row([
+            ft.FilledButton("印刷ダイアログ（Printingサービス）",
+                            on_click=print_click),
+            status,
+        ]),
+        # PdfPreview: PDF表示＋印刷/共有ボタン内蔵（flet-dev/flet#894 の
+        # 「PDFを表示して印刷・保存できるウィジェット」への回答）
+        PdfPreview(src=MINIMAL_PDF, pdf_file_name="example.pdf", expand=True),
     )
 
 
