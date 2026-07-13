@@ -7,6 +7,13 @@ Flet has no built-in printing API. Flutter has a mature one. This
 extension bridges the gap, the same way official extensions like
 `flet-audio` wrap `audioplayers`.
 
+The demand is documented:
+[flet-dev/flet#894](https://github.com/flet-dev/flet/issues/894)
+(Jan 2023) asked for exactly this — PDF printing via the `printing`
+package — was closed as "completed" without a shipped solution, and the
+follow-up question *"What's the completed solution for this?"* (Feb
+2024) was never answered. This package is that answer.
+
 日本語補足: Fletには印刷APIがありません（0.85時点・全API確認済み）。
 Flutterの`printing`パッケージ（ネイティブ印刷ダイアログ・共有シート）を
 Flet拡張として包んだものです。ワープロ的なアプリの「ファイル→印刷…」を
