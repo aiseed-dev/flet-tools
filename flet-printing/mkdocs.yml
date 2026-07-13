@@ -1,0 +1,7 @@
+site_name: Printing
+
+theme:
+  name: "material"
+
+plugins:
+  - mkdocstrings
