@@ -17,7 +17,14 @@ vi src/flutter/flet_printing/pubspec.yaml   # version: X.Y.Z
 
 # 3. 検証
 cd src/flutter/flet_printing && flutter analyze && cd ../../..
-cd examples/flet_printing_example && flet build linux --yes && cd ../..
+python -m build --wheel && unzip -l dist/*.whl | grep flutter/   # flutter/同梱の確認
+# flet buildの一気通貫検証が要るとき（Flet新版追従時など）は、使い捨ての
+# 検証アプリを作る ── READMEのUsageコードがそのまま完全なアプリ:
+#   flet create /tmp/fp_check && cd /tmp/fp_check
+#   （src/main.py にREADMEのUsageを貼り、pyproject.tomlに追記:
+#     dependencies に "flet-printing"、
+#     [tool.flet.dev_packages] flet-printing = "/home/dev/dev/flet-printing"）
+#   flet build linux --yes && ./build/linux/fp_check
 
 # 4. コミットして push
 git add -A && git commit -m "vX.Y.Z" && git push origin main

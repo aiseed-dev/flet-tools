@@ -83,10 +83,9 @@ dependencies = [
 ```
 
 then `flet build linux` (or `windows` / `macos` / `apk` / `ipa`).
-
-A runnable example lives in `examples/flet_printing_example`
-(build verified on Linux: extension registers, app launches, print
-dialog opens from the button).
+The Usage snippets above are complete runnable apps — paste one into
+your app's `main.py` to try it (build verified on Linux: extension
+registers, app launches, print dialog opens).
 
 ## Platform support
 

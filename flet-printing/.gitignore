@@ -3,7 +3,5 @@ __pycache__/
 dist/
 build/
 .venv/
-examples/*/build/
-examples/*/.venv/
 src/flutter/*/pubspec.lock
 src/flutter/*/.dart_tool/
