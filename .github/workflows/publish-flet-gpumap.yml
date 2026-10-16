@@ -1,0 +1,43 @@
+name: publish flet-gpumap
+
+# Publishes flet-gpumap/ to PyPI via Trusted Publishing (OIDC) when a flet-gpumap-v* tag is
+# pushed. One-time setup on pypi.org: project "flet-gpumap" -> Publishing -> add a
+# GitHub publisher aiseed-dev/flet-tools, workflow publish-flet-gpumap.yml, environment pypi.
+
+on:
+  push:
+    tags: ["flet-gpumap-v*"]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: flet-gpumap
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install build
+      - run: python -m build
+      - name: The tag matches the built version
+        run: ls dist/*.whl | grep -- "-${GITHUB_REF_NAME#flet-gpumap-v}-"
+      - run: unzip -l dist/*.whl | grep "flutter/flet_gpumap/shaders/field.frag"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: dist
+          path: flet-gpumap/dist/
+
+  pypi:
+    needs: build
+    runs-on: ubuntu-latest
+    environment: pypi
+    permissions:
+      id-token: write  # Trusted Publishing
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: dist
+          path: dist/
+      - uses: pypa/gh-action-pypi-publish@release/v1

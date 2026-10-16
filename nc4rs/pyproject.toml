@@ -1,0 +1,36 @@
+[build-system]
+requires = ["maturin>=1.9,<2"]
+build-backend = "maturin"
+
+[project]
+name = "nc4rs"
+version = "0.1.0"
+description = "Read and write NetCDF-4 and classic files without C, with a netCDF4-like API (netcdf-rust)"
+readme = "README.md"
+requires-python = ">=3.10"
+license = "MIT"
+license-files = ["LICENSE", "vendor/LICENSE-MIT", "vendor/LICENSE-APACHE"]
+authors = [{ name = "aiseed-dev" }]
+keywords = ["netcdf", "netcdf4", "hdf5", "xarray", "rust", "weather", "climate"]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Rust",
+    "Topic :: Scientific/Engineering :: Atmospheric Science",
+]
+dependencies = ["numpy>=1.24"]
+
+[project.optional-dependencies]
+xarray = ["xarray>=2024.1"]
+
+[project.entry-points."xarray.backends"]
+nc4rs = "nc4rs.xarray_backend:Nc4rsBackendEntrypoint"
+
+[project.urls]
+Homepage = "https://github.com/aiseed-dev/flet-tools/tree/main/nc4rs"
+Repository = "https://github.com/aiseed-dev/flet-tools"
+Issues = "https://github.com/aiseed-dev/flet-tools/issues"
+
+[tool.maturin]
+python-source = "python"
+module-name = "nc4rs._nc4rs"
+features = []

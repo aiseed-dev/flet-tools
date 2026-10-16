@@ -1,0 +1,43 @@
+name: publish cf-publish
+
+# Publishes cf-publish/ to PyPI via Trusted Publishing (OIDC) when a cf-publish-v* tag is
+# pushed. One-time setup on pypi.org: project "cf-publish" -> Publishing -> add a
+# GitHub publisher aiseed-dev/flet-tools, workflow publish-cf-publish.yml, environment pypi.
+
+on:
+  push:
+    tags: ["cf-publish-v*"]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: cf-publish
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install build
+      - run: python -m build
+      - name: The tag matches the built version
+        run: ls dist/*.whl | grep -- "-${GITHUB_REF_NAME#cf-publish-v}-"
+      - run: unzip -l dist/*.whl | grep "cf_publish/"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: dist
+          path: cf-publish/dist/
+
+  pypi:
+    needs: build
+    runs-on: ubuntu-latest
+    environment: pypi
+    permissions:
+      id-token: write  # Trusted Publishing
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: dist
+          path: dist/
+      - uses: pypa/gh-action-pypi-publish@release/v1

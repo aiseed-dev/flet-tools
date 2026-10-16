@@ -1,0 +1,70 @@
+name: publish nc4rs
+
+# Builds nc4rs/ wheels for Linux, macOS and Windows and publishes them
+# to PyPI via Trusted Publishing (OIDC) when an nc4rs-v* tag is pushed.
+# One-time setup on pypi.org: Publishing -> add pending publisher "nc4rs" ->
+# GitHub aiseed-dev/flet-tools, workflow publish-nc4rs.yml, environment pypi.
+
+on:
+  push:
+    tags: ["nc4rs-v*"]
+
+jobs:
+  wheels:
+    strategy:
+      matrix:
+        include:
+          - { os: ubuntu-latest, target: x86_64 }
+          - { os: ubuntu-latest, target: aarch64 }
+          - { os: macos-latest, target: aarch64 }
+          - { os: macos-13, target: x86_64 }
+          - { os: windows-latest, target: x64 }
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Tag matches the version
+        shell: bash
+        working-directory: nc4rs
+        run: |
+          v=$(python -c "import tomllib;print(tomllib.load(open('pyproject.toml','rb'))['project']['version'])")
+          test "nc4rs-v$v" = "${GITHUB_REF_NAME}"
+      - uses: PyO3/maturin-action@v1
+        with:
+          working-directory: nc4rs
+          target: ${{ matrix.target }}
+          args: --release --out dist
+          manylinux: auto
+      - uses: actions/upload-artifact@v4
+        with:
+          name: wheels-${{ matrix.os }}-${{ matrix.target }}
+          path: nc4rs/dist/
+
+  sdist:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: PyO3/maturin-action@v1
+        with:
+          working-directory: nc4rs
+          command: sdist
+          args: --out dist
+      - uses: actions/upload-artifact@v4
+        with:
+          name: sdist
+          path: nc4rs/dist/
+
+  pypi:
+    needs: [wheels, sdist]
+    runs-on: ubuntu-latest
+    environment: pypi
+    permissions:
+      id-token: write  # Trusted Publishing
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          path: dist/
+          merge-multiple: true
+      - uses: pypa/gh-action-pypi-publish@release/v1
