@@ -5,6 +5,8 @@ flet-tools は、Python のパッケージを置くリポジトリです。中�
 aiai-tools の CLAUDE.md と同じで、ここには違う所だけを書きます。
 
 - パッケージは、一番上のフォルダーに 1 つずつ置く。どれも MIT
+- パッケージでない、写して使う雛形と文書は `recipes/<名前>/` に置く(2026-10-18 に発注者が決めた)。
+  PyPI には出さない。これも MIT。試験は標準ライブラリの unittest で、そのフォルダーの中で動かす
 - 公開はパッケージごと。タグは `<パッケージ>-v<版>`、ワークフローは `.github/workflows/publish-<パッケージ>.yml`
 - 版を上げたら、そのパッケージの CHANGELOG.md(あれば)を直す
 - 試験は、パッケージのフォルダーの中で動かす。比べる相手がある物は、相手と比べる(nc4rs は netCDF4)
@@ -39,6 +41,16 @@ PyPI の Trusted Publishing は、このリポジトリに登録し直す。
    publish-nc4rs.yml を消す)
 6. 動いたら、aiseed-dev/flet-printing と aiseed-dev/cf-publish の README に移った先を書いてアーカイブにする
    (発注者)。cf-publish の conda-forge のレシピ(別のセッションで PR を出している)の URL も直す
+
+weather(「Weather アプリ開発」のセッション)からの部品(2026-10-18 に相談して決めた):
+
+- Windows 版の配り方と起動の待ち画面は、recipes/flet-windows-release に入れた。weather の AGPL の物を、
+  著作者の発注者が MIT で出すと決めた。weather 側は写しのままで、元の雛形の場所を一行書く
+- 時系列のグラフ(canvas_timeseries)は、weather 側で切り離してから、パッケージとしてここに入れる。
+  発注者の指示を待つ
+- 利用台数の記録(usage_report)は kaiseki とセットなので、ここには入れない(weather に置いたまま)
+- README の「この部品で作ったアプリ」に AIseed Weather を載せた。weather の main は今 flet-gpufield を使っている。
+  flet-gpumap と nc4rs に切り替えたら、README の書き方を直す
 
 パッケージごとの覚え書き:
 

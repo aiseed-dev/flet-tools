@@ -1,0 +1,82 @@
+# Flet のアプリの Windows 版（Python ごとまとめたアプリ）を、GitHub の Windows の機械で組み立てる。
+# 雛形: https://github.com/aiseed-dev/flet-tools/tree/main/recipes/flet-windows-release
+#
+# 使うアプリの .github/workflows/ に写し、「直す」と書いた所を合わせる。write_build_version.py は
+# tools/ に写す。push するたびに組み立てて成果物（artifact）に 14 日残し、app-v* のタグなら
+# 組み立てた zip を GitHub の Release（試験版）に載せる。
+name: windows-app
+
+on:
+  push:
+    branches: [main]
+    # 直す: 版のタグの頭を変えるなら、ここと env の TAG_PREFIX を両方
+    tags: ["app-v*"]
+  workflow_dispatch:
+
+env:
+  PYTHONUTF8: "1"
+  # 直す: flet build を走らせるフォルダー（[tool.flet] のある pyproject.toml の所）
+  APP_DIR: desktop
+  # 直す: zip を展開したときのフォルダーの名前と、Release の題
+  APP_NAME: My App
+  # 直す: タグから版を書く先（.gitignore に入れ、アプリの __init__.py が読む）
+  VERSION_FILE: src/myapp/_build_version.py
+  TAG_PREFIX: app-v
+  # 直す: アプリが使う Flet の版（flet と flet-cli を同じにする）
+  FLET_VERSION: "1.0.4"
+
+jobs:
+  build:
+    runs-on: windows-latest
+    timeout-minutes: 90
+    permissions:
+      contents: write   # タグのときに Release を作る
+    defaults:
+      run:
+        shell: pwsh
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"   # 直す: アプリの requires-python に合わせる
+
+      # 配布版の版は git のタグ（app-vX.Y.Z）だけで決まる。タグなら X.Y.Z を VERSION_FILE に書き、
+      # BUILD_VERSION として次の手順に渡す（形が違うタグはここで失敗させる）。タグでなければ
+      # 0.0.0.dev0+<短い sha> を書くだけ
+      - name: 版を決める
+        run: python tools/write_build_version.py --out $env:VERSION_FILE --tag-prefix $env:TAG_PREFIX
+
+      # 直す: アプリと試験に要る物を入れる
+      - name: アプリの部品と試験の道具
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install "flet==$env:FLET_VERSION" pytest
+          python -m pip install -e .
+
+      - name: 試験
+        run: python -m pytest -q tests
+
+      - name: 組み立て
+        working-directory: ${{ env.APP_DIR }}
+        run: |
+          python -m pip install "flet-cli==$env:FLET_VERSION"
+          if ($env:BUILD_VERSION) { flet build windows --yes --build-version $env:BUILD_VERSION } else { flet build windows --yes }
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: windows-app
+          path: ${{ env.APP_DIR }}/build/windows
+          retention-days: 14
+
+      - name: Release に載せる（タグのとき）
+        if: startsWith(github.ref, 'refs/tags/')
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          # 展開したときに 1 つのフォルダーにまとまるように
+          Rename-Item "$env:APP_DIR\build\windows" $env:APP_NAME
+          $zip = "$($env:APP_NAME -replace ' ', '-')-windows-${{ github.ref_name }}.zip"
+          7z a -tzip -mx=7 $zip "$env:APP_DIR\build\$env:APP_NAME" | Out-Null
+          # 直す: Release の説明
+          gh release create "${{ github.ref_name }}" $zip --prerelease --title "$env:APP_NAME ${{ github.ref_name }}（Windows 試験版）" --notes "Windows 10/11（64 ビット）。zip を展開し、$env:APP_NAME.exe を起動してください。初めての起動は 1 分ほどかかります。"
