@@ -21,3 +21,35 @@ aiai-tools の CLAUDE.md と同じで、ここには違う所だけを書きま�
 
 どれも履歴は写していない。前のリポジトリは、移った先を README に書いてからアーカイブにする(発注者がする)。
 PyPI の Trusted Publishing は、このリポジトリに登録し直す。
+
+## 残っていること(2026-10-18 時点。aiai-tools のセッションからの引き継ぎ)
+
+公開までの順番。どれも発注者がする所は発注者がする。
+
+1. GitHub に aiseed-dev/flet-tools を作り(発注者が作成中)、`git push -u origin main`(remote は付けてある)
+2. GitHub の flet-tools に environment `pypi` を作る
+3. pypi.org で、4 つとも Trusted Publishing を登録する(リポジトリ aiseed-dev/flet-tools、ワークフロー
+   `publish-<パッケージ>.yml`、environment `pypi`)。flet-printing と cf-publish は前のリポジトリからの付け替え、
+   flet-gpumap と nc4rs は新しい pending publisher
+4. タグで出す: `flet-gpumap-v0.1.0`、`nc4rs-v0.1.0`。flet-printing と cf-publish は、次の版を出すときから
+   ここのタグ(`flet-printing-v…`、`cf-publish-v…`)を使う
+5. 出たら知らせる: 「Weather アプリ開発」のセッション(weather の ローカルのブランチ prep/flet-gpumap が
+   flet-gpumap==0.1.0 を待っている。nc4rs への切り替えも PyPI の後)、「aiaiの管理者」(aiai の紹介ページに
+   パッケージの節を足す)、aiai-tools のセッション(aiai-tools の packages/ と publish-flet-gpumap.yml、
+   publish-nc4rs.yml を消す)
+6. 動いたら、aiseed-dev/flet-printing と aiseed-dev/cf-publish の README に移った先を書いてアーカイブにする
+   (発注者)。cf-publish の conda-forge のレシピ(別のセッションで PR を出している)の URL も直す
+
+パッケージごとの覚え書き:
+
+- flet-gpumap: weather の flet-gpufield から改名(Python と Dart のパッケージ名、シェーダーの道)。部品の名前
+  GpuField はそのまま。weather の動く地図で、Linux と Web の組み立てと Web での表示を確かめた(2026-10-14)
+- nc4rs: 組むのは maturin(pyo3 0.29、abi3-py310)。`maturin build --release` で wheel ができる。試験は
+  `python -m unittest discover -s tests` で netCDF4 と xarray が要る(netCDF4 1.7.4 と比べて、決まった形と
+  無作為 60 件ずつが一致)。速さは README のとおり(Python から読み 1.1〜2.4 倍、書き 2.3〜2.4 倍)。
+  `vendor/` の hdf5-writer と hdf5-reader の速くする直しは、上流(roteiro-gis/netcdf-rust)へのプルリクエストを
+  発注者の確認待ち。上流に入ったら vendor/ を消す。zstd の圧縮、追記("a")、グループはまだ無い。
+  `publish-nc4rs.yml` は GitHub の上でまだ動かしていない(macOS の Intel は macos-15-intel にした。
+  macos-13 は今の runner の一覧に無い、2026-10-18 に確かめた)
+- cf-publish: PyPI の 0.3.1。試験は `pip install -e .[dev]` と pytest(ここでは動かしていない)
+- flet-printing: PyPI の 0.2.0
