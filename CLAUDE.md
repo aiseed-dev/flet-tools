@@ -1,15 +1,16 @@
 # このリポジトリで作業するときの決まり
 
-flet-tools は、Python のパッケージを置くリポジトリです。中心は Flet の拡張です。会社や団体のための
-スキルは aiai-tools に置き、ここには置きません(2026-10-16 に発注者が決めた)。書き方と作業の進め方は
-aiai-tools の CLAUDE.md と同じで、ここには違う所だけを書きます。
+flet-tools は、Flet のパッケージを置くリポジトリです(Flet の拡張と、Flet のアプリで使う部品)。Flet の
+物でないパッケージは、ここには置きません(2026-10-18 に発注者が決めた)。会社や団体のためのスキルは
+aiai-tools に置きます(2026-10-16 に発注者が決めた)。書き方と作業の進め方は aiai-tools の CLAUDE.md と
+同じで、ここには違う所だけを書きます。
 
 - パッケージは、一番上のフォルダーに 1 つずつ置く。どれも MIT
 - パッケージでない、写して使う雛形と文書は `recipes/<名前>/` に置く(2026-10-18 に発注者が決めた)。
   PyPI には出さない。これも MIT。試験は標準ライブラリの unittest で、そのフォルダーの中で動かす
 - 公開はパッケージごと。タグは `<パッケージ>-v<版>`、ワークフローは `.github/workflows/publish-<パッケージ>.yml`
 - 版を上げたら、そのパッケージの CHANGELOG.md(あれば)を直す
-- 試験は、パッケージのフォルダーの中で動かす。比べる相手がある物は、相手と比べる(nc4rs は netCDF4)
+- 試験は、パッケージのフォルダーの中で動かす
 - ダウンロード(pip、conda、cargo、npm)は、名前、出どころ、大きさを伝えて許しを得てからにする
 - push、PyPI の登録、タグの push は発注者がする。コミットまでで止める。コミットは触ったファイルだけを
   名前で指定する
@@ -18,34 +19,33 @@ aiai-tools の CLAUDE.md と同じで、ここには違う所だけを書きま�
 ## 移した元(2026-10-16)
 
 - flet-printing: aiseed-dev/flet-printing の ff15e40
-- flet-gpumap、nc4rs: aiseed-dev/aiai-tools の packages/(fe64259)
-
-cf-publish(aiseed-dev/cf-publish の 1cf9111)も一度ここに移したが、Flet の物ではないので、2026-10-18 に
-発注者の指示で aiai-tools に返した(aiai-tools のセッションが引き取る)。ここには残さない。
+- flet-gpumap: aiseed-dev/aiai-tools の packages/(fe64259)
 
 どれも履歴は写していない。前のリポジトリは、移った先を README に書いてからアーカイブにする(発注者がする)。
 PyPI の Trusted Publishing は、このリポジトリに登録し直す。
 
-## 残っていること(2026-10-18 時点。aiai-tools のセッションからの引き継ぎ)
+cf-publish(aiseed-dev/cf-publish の 1cf9111)と nc4rs(aiai-tools の packages/ の fe64259)も一度ここに
+移したが、Flet の物ではないので、2026-10-18 に発注者の指示で aiai-tools に返した(aiai-tools のセッションが
+引き取る)。ここには残さない。
+
+## 残っていること(2026-10-18 時点)
 
 公開までの順番。どれも発注者がする所は発注者がする。
 
 1. GitHub に aiseed-dev/flet-tools を作り、`git push -u origin main`。リポジトリはできていて、a4d2947 までは
    上がった(2026-10-18)。その後のコミットは、発注者が push する
-1a. push の後、Actions の画面から 3 つの publish-*.yml を手で動かして(Run workflow)、組み立てを確かめる。
-   手で動かしたときは組み立てと試験だけで、PyPI には出さない(出すのはタグのときだけ)。nc4rs は、
-   Linux x86_64、macOS(arm と Intel)、Windows の wheel を、その機械の上で netCDF4 と比べて試す
-   (Linux aarch64 は別の機械で組むので試さない)
+1a. push の後、Actions の画面から publish-flet-gpumap.yml と publish-flet-printing.yml を手で動かして
+   (Run workflow)、組み立てを確かめる。手で動かしたときは組み立てだけで、PyPI には出さない(出すのは
+   タグのときだけ)
 2. GitHub の flet-tools に environment `pypi` を作る
-3. pypi.org で、3 つとも Trusted Publishing を登録する(リポジトリ aiseed-dev/flet-tools、ワークフロー
+3. pypi.org で、2 つとも Trusted Publishing を登録する(リポジトリ aiseed-dev/flet-tools、ワークフロー
    `publish-<パッケージ>.yml`、environment `pypi`)。flet-printing は前のリポジトリからの付け替え、
-   flet-gpumap と nc4rs は新しい pending publisher
-4. タグで出す: `flet-gpumap-v0.1.0`、`nc4rs-v0.1.0`。flet-printing は、次の版を出すときから
-   ここのタグ(`flet-printing-v…`)を使う
+   flet-gpumap は新しい pending publisher
+4. タグで出す: `flet-gpumap-v0.1.0`。flet-printing は、次の版を出すときからここのタグ
+   (`flet-printing-v…`)を使う
 5. 出たら知らせる: 「Weather アプリ開発」のセッション(weather の ローカルのブランチ prep/flet-gpumap が
-   flet-gpumap==0.1.0 を待っている。nc4rs への切り替えも PyPI の後)、「aiaiの管理者」(aiai の紹介ページに
-   パッケージの節を足す)、aiai-tools のセッション(aiai-tools の packages/ と publish-flet-gpumap.yml、
-   publish-nc4rs.yml を消す)
+   flet-gpumap==0.1.0 を待っている)、「aiaiの管理者」(aiai の紹介ページにパッケージの節を足す)、
+   aiai-tools のセッション(aiai-tools の packages/flet-gpumap と publish-flet-gpumap.yml を消す)
 6. 動いたら、aiseed-dev/flet-printing の README に移った先を書いてアーカイブにする(発注者)
 
 weather(「Weather アプリ開発」のセッション)からの部品(2026-10-18 に相談して決めた):
@@ -56,18 +56,10 @@ weather(「Weather アプリ開発」のセッション)からの部品(2026-10-
   発注者の指示を待つ
 - 利用台数の記録(usage_report)は kaiseki とセットなので、ここには入れない(weather に置いたまま)
 - README の「この部品で作ったアプリ」に AIseed Weather を載せた。weather の main は今 flet-gpufield を使っている。
-  flet-gpumap と nc4rs に切り替えたら、README の書き方を直す
+  flet-gpumap に切り替えたら、README の書き方を直す
 
 パッケージごとの覚え書き:
 
 - flet-gpumap: weather の flet-gpufield から改名(Python と Dart のパッケージ名、シェーダーの道)。部品の名前
   GpuField はそのまま。weather の動く地図で、Linux と Web の組み立てと Web での表示を確かめた(2026-10-14)
-- nc4rs: 組むのは maturin(pyo3 0.29、abi3-py310)。`maturin build --release` で wheel ができる。試験は
-  `python -m unittest discover -s tests` で netCDF4 と xarray が要る(netCDF4 1.7.4 と比べて、決まった形と
-  無作為 60 件ずつが一致)。速さは README のとおり(Python から読み 1.1〜2.4 倍、書き 2.3〜2.4 倍)。
-  `vendor/` の hdf5-writer と hdf5-reader の速くする直しは、上流(roteiro-gis/netcdf-rust)へのプルリクエストを
-  発注者の確認待ち。上流に入ったら vendor/ を消す。zstd の圧縮、追記("a")、グループはまだ無い。
-  `publish-nc4rs.yml` は GitHub の上でまだ動かしていない(macOS の Intel は macos-15-intel にした。
-  macos-13 は今の runner の一覧に無い、2026-10-18 に確かめた)。手元(Linux)では、netCDF4 1.7.5 と比べて
-  7 件とも通った(2026-10-18)
 - flet-printing: PyPI の 0.2.0
