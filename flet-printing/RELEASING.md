@@ -1,8 +1,9 @@
 # リリース手順（PyPIへの公開）
 
-公開は**タグの push だけ**で完了する。GitHub Actions
-（`.github/workflows/publish.yml`）が Trusted Publishing（OIDC）で
-PyPI にアップロードする。
+公開は**タグの push だけ**で完了する。flet-tools の GitHub Actions
+（リポジトリの一番上の `.github/workflows/publish-flet-printing.yml`）が
+Trusted Publishing（OIDC）で PyPI にアップロードする。タグの版と組んだ wheel の版が
+違うときは止まる。
 
 ## 手順
 
@@ -23,24 +24,25 @@ python -m build --wheel && unzip -l dist/*.whl | grep flutter/   # flutter/同�
 #   flet create /tmp/fp_check && cd /tmp/fp_check
 #   （src/main.py にREADMEのUsageを貼り、pyproject.tomlに追記:
 #     dependencies に "flet-printing"、
-#     [tool.flet.dev_packages] flet-printing = "/home/dev/dev/flet-printing"）
+#     [tool.flet.dev_packages] flet-printing = "/home/dev/dev/flet-tools/flet-printing"）
 #   flet build linux --yes && ./build/linux/fp_check
 
-# 4. コミットして push
-git add -A && git commit -m "vX.Y.Z" && git push origin main
+# 4. コミットして push（触ったファイルだけを名前で指定する）
+git add src/flet_printing/__init__.py src/flutter/flet_printing/pubspec.yaml CHANGELOG.md
+git commit -m "flet-printing X.Y.Z" && git push origin main
 
-# 5. タグを打って push（公開トリガー）
-git tag vX.Y.Z && git push origin vX.Y.Z
+# 5. タグを打って push（公開トリガー。v0.2.0 までは元の aiseed-dev/flet-printing の v* タグ）
+git tag flet-printing-vX.Y.Z && git push origin flet-printing-vX.Y.Z
 ```
 
 ## 初回のみ（Trusted Publisher登録）
 
 <https://pypi.org/manage/account/publishing/> の
-「Add a new pending publisher」で:
+プロジェクト flet-printing の Publishing で、GitHub の publisher を足す
+（0.2.0 までは aiseed-dev/flet-printing の publish.yml から出していた）:
 
-- PyPI Project Name: `flet-printing`
-- Owner: `aiseed-dev` / Repository: `flet-printing`
-- Workflow: `publish.yml` / Environment: `pypi`
+- Owner: `aiseed-dev` / Repository: `flet-tools`
+- Workflow: `publish-flet-printing.yml` / Environment: `pypi`
 
 ## 注意
 

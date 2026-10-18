@@ -5,7 +5,7 @@
 > @zzj0402 asked (Feb 2024): *"What's the completed solution for this?"*
 >
 > There wasn't one — so we built it: **flet-printing**
-> https://github.com/aiseed-dev/flet-printing (PyPI: `flet-printing`)
+> https://github.com/aiseed-dev/flet-tools/tree/main/flet-printing (PyPI: `flet-printing`)
 >
 > It wraps the [`printing`](https://pub.dev/packages/printing) package
 > (as originally suggested in this issue) as a standard Flet extension:
@@ -34,7 +34,7 @@
 > is still unanswered.
 >
 > Instead of asking again, we built it first:
-> **https://github.com/aiseed-dev/flet-printing** (PyPI: `flet-printing`)
+> **https://github.com/aiseed-dev/flet-tools/tree/main/flet-printing** (PyPI: `flet-printing`)
 >
 > - `Printing` service: `print_pdf(bytes)` → native print dialog with
 >   cancel detection; `share_pdf(bytes)` → share sheet / save dialog

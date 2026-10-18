@@ -28,8 +28,9 @@ cf-publish(aiseed-dev/cf-publish の 1cf9111)と nc4rs(aiai-tools の packages/ 
 移したが、Flet の物ではないので、2026-10-18 に発注者の指示で aiai-tools に返した(aiai-tools のセッションが
 引き取る)。ここには残さない。
 
-flet-printing(aiseed-dev/flet-printing の ff15e40)も一度ここに移したが、2026-10-18 に発注者の指示で
-ここから消した。PyPI の 0.2.0 と、元の aiseed-dev/flet-printing はそのまま(どうするかは発注者が決める)。
+flet-printing は、2026-10-18 に発注者の指示で、aiseed-dev/flet-printing(ff15e40)の履歴ごと取り込んだ
+(6 つのコミットを flet-printing/ の下に移して merge。タグ v0.2.0 は取り込んでいない。GitHub の元には残る)。
+手元の ~/dev/flet-printing は消した。これからは、ここだけで直す。
 
 ## 残っていること(2026-10-18 時点)
 
@@ -37,16 +38,19 @@ flet-printing(aiseed-dev/flet-printing の ff15e40)も一度ここに移した�
 
 1. GitHub に aiseed-dev/flet-tools を作り、`git push -u origin main`。リポジトリはできていて、a4d2947 までは
    上がった(2026-10-18)。その後のコミットは、発注者が push する
-1a. push の後、Actions の画面から publish-flet-gpumap.yml を手で動かして
+1a. push の後、Actions の画面から publish-flet-gpumap.yml と publish-flet-printing.yml を手で動かして
    (Run workflow)、組み立てを確かめる。手で動かしたときは組み立てだけで、PyPI には出さない(出すのは
    タグのときだけ)
 2. GitHub の flet-tools に environment `pypi` を作る
-3. pypi.org で、flet-gpumap の Trusted Publishing を新しい pending publisher として登録する(リポジトリ
-   aiseed-dev/flet-tools、ワークフロー `publish-flet-gpumap.yml`、environment `pypi`)
-4. タグで出す: `flet-gpumap-v0.1.0`
+3. pypi.org で、2 つとも Trusted Publishing を登録する(リポジトリ aiseed-dev/flet-tools、ワークフロー
+   `publish-<パッケージ>.yml`、environment `pypi`)。flet-printing は前のリポジトリからの付け替え、
+   flet-gpumap は新しい pending publisher
+4. タグで出す: `flet-gpumap-v0.1.0`。flet-printing は、次の版を出すときからここのタグ
+   (`flet-printing-v…`)を使う(手順は flet-printing/RELEASING.md)
 5. 出たら知らせる: 「Weather アプリ開発」のセッション(weather の ローカルのブランチ prep/flet-gpumap が
    flet-gpumap==0.1.0 を待っている)、「aiaiの管理者」(aiai の紹介ページにパッケージの節を足す)、
    aiai-tools のセッション(aiai-tools の packages/flet-gpumap と publish-flet-gpumap.yml を消す)
+6. 動いたら、GitHub の aiseed-dev/flet-printing の README に移った先を書いてアーカイブにする(発注者)
 
 weather(「Weather アプリ開発」のセッション)からの部品(2026-10-18 に相談して決めた):
 
@@ -62,3 +66,4 @@ weather(「Weather アプリ開発」のセッション)からの部品(2026-10-
 
 - flet-gpumap: weather の flet-gpufield から改名(Python と Dart のパッケージ名、シェーダーの道)。部品の名前
   GpuField はそのまま。weather の動く地図で、Linux と Web の組み立てと Web での表示を確かめた(2026-10-14)
+- flet-printing: PyPI の 0.2.0。使っている所: officework の sample/flet_insatsu、pykobo の README
