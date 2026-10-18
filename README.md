@@ -6,7 +6,6 @@
 
 | パッケージ | 中身 | PyPI |
 |---|---|---|
-| [flet-printing](flet-printing/) | Flet のアプリから、印刷の画面、共有の画面、PDF の下見を出す(Flutter の printing を包む) | [flet-printing](https://pypi.org/project/flet-printing/) |
 | [flet-gpumap](flet-gpumap/) | GPU で格子データ(気象の予報など)を地図に描く Flet の拡張 | (まだ出していない) |
 
 ## 雛形と文書(recipes/)
