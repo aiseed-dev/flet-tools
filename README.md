@@ -25,8 +25,8 @@ PyPI には出しません。使うアプリのリポジトリに写して、名
     そちらに切り替える予定です。
   - recipes/flet-windows-release は、このアプリの Windows 版の配り方から作りました。
 
-Flet の物でないパッケージ(cf-publish、nc4rs など)と、会社や団体のためのスキルは
-[aiai-tools](https://github.com/aiseed-dev/aiai-tools)、個人のための物は
+Flet の物でないパッケージ(cf-publish、nc4rs など)は [aiai-tools](https://github.com/aiseed-dev/aiai-tools)
+の packages/ に置きます。会社や団体のためのスキルも aiai-tools、個人のための物は
 [aiai](https://github.com/aiseed-dev/aiai) にあります。
 
 ## 公開
