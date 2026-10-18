@@ -28,7 +28,12 @@ PyPI の Trusted Publishing は、このリポジトリに登録し直す。
 
 公開までの順番。どれも発注者がする所は発注者がする。
 
-1. GitHub に aiseed-dev/flet-tools を作り(発注者が作成中)、`git push -u origin main`(remote は付けてある)
+1. GitHub に aiseed-dev/flet-tools を作り、`git push -u origin main`。リポジトリはできていて、a4d2947 までは
+   上がった(2026-10-18)。その後のコミットは、発注者が push する
+1a. push の後、Actions の画面から 4 つの publish-*.yml を手で動かして(Run workflow)、組み立てを確かめる。
+   手で動かしたときは組み立てと試験だけで、PyPI には出さない(出すのはタグのときだけ)。nc4rs は、
+   Linux x86_64、macOS(arm と Intel)、Windows の wheel を、その機械の上で netCDF4 と比べて試す
+   (Linux aarch64 は別の機械で組むので試さない)
 2. GitHub の flet-tools に environment `pypi` を作る
 3. pypi.org で、4 つとも Trusted Publishing を登録する(リポジトリ aiseed-dev/flet-tools、ワークフロー
    `publish-<パッケージ>.yml`、environment `pypi`)。flet-printing と cf-publish は前のリポジトリからの付け替え、
@@ -62,6 +67,7 @@ weather(「Weather アプリ開発」のセッション)からの部品(2026-10-
   `vendor/` の hdf5-writer と hdf5-reader の速くする直しは、上流(roteiro-gis/netcdf-rust)へのプルリクエストを
   発注者の確認待ち。上流に入ったら vendor/ を消す。zstd の圧縮、追記("a")、グループはまだ無い。
   `publish-nc4rs.yml` は GitHub の上でまだ動かしていない(macOS の Intel は macos-15-intel にした。
-  macos-13 は今の runner の一覧に無い、2026-10-18 に確かめた)
-- cf-publish: PyPI の 0.3.1。試験は `pip install -e .[dev]` と pytest(ここでは動かしていない)
+  macos-13 は今の runner の一覧に無い、2026-10-18 に確かめた)。手元(Linux)では、netCDF4 1.7.5 と比べて
+  7 件とも通った(2026-10-18)
+- cf-publish: PyPI の 0.3.1。試験は `pip install -e .[dev]` と pytest。手元で 68 件とも通った(2026-10-18)
 - flet-printing: PyPI の 0.2.0

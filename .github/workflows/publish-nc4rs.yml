@@ -4,21 +4,25 @@ name: publish nc4rs
 # to PyPI via Trusted Publishing (OIDC) when an nc4rs-v* tag is pushed.
 # One-time setup on pypi.org: Publishing -> add pending publisher "nc4rs" ->
 # GitHub aiseed-dev/flet-tools, workflow publish-nc4rs.yml, environment pypi.
+# Run by hand (Actions -> Run workflow) to build and test only: nothing goes to
+# PyPI without a tag. Each wheel that can run on its runner is tested against
+# netCDF4 there, so a tag never publishes a wheel whose tests fail.
 
 on:
   push:
     tags: ["nc4rs-v*"]
+  workflow_dispatch:
 
 jobs:
   wheels:
     strategy:
       matrix:
         include:
-          - { os: ubuntu-latest, target: x86_64 }
-          - { os: ubuntu-latest, target: aarch64 }
-          - { os: macos-latest, target: aarch64 }
-          - { os: macos-15-intel, target: x86_64 }
-          - { os: windows-latest, target: x64 }
+          - { os: ubuntu-latest, target: x86_64, test: true }
+          - { os: ubuntu-latest, target: aarch64, test: false }  # cross-built, cannot run here
+          - { os: macos-latest, target: aarch64, test: true }
+          - { os: macos-15-intel, target: x86_64, test: true }
+          - { os: windows-latest, target: x64, test: true }
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v4
@@ -26,6 +30,7 @@ jobs:
         with:
           python-version: "3.12"
       - name: Tag matches the version
+        if: startsWith(github.ref, 'refs/tags/')
         shell: bash
         working-directory: nc4rs
         run: |
@@ -37,6 +42,15 @@ jobs:
           target: ${{ matrix.target }}
           args: --release --out dist
           manylinux: auto
+      # The same tests as on a developer's machine: nc4rs against netCDF4 and xarray
+      - name: Test the wheel
+        if: matrix.test
+        shell: bash
+        working-directory: nc4rs
+        run: |
+          python -m pip install numpy netCDF4 xarray
+          python -m pip install --no-index --find-links dist nc4rs
+          python -m unittest discover -s tests -v
       - uses: actions/upload-artifact@v4
         with:
           name: wheels-${{ matrix.os }}-${{ matrix.target }}
@@ -58,6 +72,7 @@ jobs:
 
   pypi:
     needs: [wheels, sdist]
+    if: startsWith(github.ref, 'refs/tags/')
     runs-on: ubuntu-latest
     environment: pypi
     permissions:
