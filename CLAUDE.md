@@ -13,13 +13,15 @@ aiai-tools の CLAUDE.md と同じで、ここには違う所だけを書きま�
 - ダウンロード(pip、conda、cargo、npm)は、名前、出どころ、大きさを伝えて許しを得てからにする
 - push、PyPI の登録、タグの push は発注者がする。コミットまでで止める。コミットは触ったファイルだけを
   名前で指定する
-- 秘密の値(PyPI のトークン、Cloudflare の API トークンなど)は、依頼にもリポジトリにも入れない
+- 秘密の値(PyPI のトークンなど)は、依頼にもリポジトリにも入れない
 
 ## 移した元(2026-10-16)
 
 - flet-printing: aiseed-dev/flet-printing の ff15e40
-- cf-publish: aiseed-dev/cf-publish の 1cf9111
 - flet-gpumap、nc4rs: aiseed-dev/aiai-tools の packages/(fe64259)
+
+cf-publish(aiseed-dev/cf-publish の 1cf9111)も一度ここに移したが、Flet の物ではないので、2026-10-18 に
+発注者の指示で aiai-tools に返した(aiai-tools のセッションが引き取る)。ここには残さない。
 
 どれも履歴は写していない。前のリポジトリは、移った先を README に書いてからアーカイブにする(発注者がする)。
 PyPI の Trusted Publishing は、このリポジトリに登録し直す。
@@ -30,22 +32,21 @@ PyPI の Trusted Publishing は、このリポジトリに登録し直す。
 
 1. GitHub に aiseed-dev/flet-tools を作り、`git push -u origin main`。リポジトリはできていて、a4d2947 までは
    上がった(2026-10-18)。その後のコミットは、発注者が push する
-1a. push の後、Actions の画面から 4 つの publish-*.yml を手で動かして(Run workflow)、組み立てを確かめる。
+1a. push の後、Actions の画面から 3 つの publish-*.yml を手で動かして(Run workflow)、組み立てを確かめる。
    手で動かしたときは組み立てと試験だけで、PyPI には出さない(出すのはタグのときだけ)。nc4rs は、
    Linux x86_64、macOS(arm と Intel)、Windows の wheel を、その機械の上で netCDF4 と比べて試す
    (Linux aarch64 は別の機械で組むので試さない)
 2. GitHub の flet-tools に environment `pypi` を作る
-3. pypi.org で、4 つとも Trusted Publishing を登録する(リポジトリ aiseed-dev/flet-tools、ワークフロー
-   `publish-<パッケージ>.yml`、environment `pypi`)。flet-printing と cf-publish は前のリポジトリからの付け替え、
+3. pypi.org で、3 つとも Trusted Publishing を登録する(リポジトリ aiseed-dev/flet-tools、ワークフロー
+   `publish-<パッケージ>.yml`、environment `pypi`)。flet-printing は前のリポジトリからの付け替え、
    flet-gpumap と nc4rs は新しい pending publisher
-4. タグで出す: `flet-gpumap-v0.1.0`、`nc4rs-v0.1.0`。flet-printing と cf-publish は、次の版を出すときから
-   ここのタグ(`flet-printing-v…`、`cf-publish-v…`)を使う
+4. タグで出す: `flet-gpumap-v0.1.0`、`nc4rs-v0.1.0`。flet-printing は、次の版を出すときから
+   ここのタグ(`flet-printing-v…`)を使う
 5. 出たら知らせる: 「Weather アプリ開発」のセッション(weather の ローカルのブランチ prep/flet-gpumap が
    flet-gpumap==0.1.0 を待っている。nc4rs への切り替えも PyPI の後)、「aiaiの管理者」(aiai の紹介ページに
    パッケージの節を足す)、aiai-tools のセッション(aiai-tools の packages/ と publish-flet-gpumap.yml、
    publish-nc4rs.yml を消す)
-6. 動いたら、aiseed-dev/flet-printing と aiseed-dev/cf-publish の README に移った先を書いてアーカイブにする
-   (発注者)。cf-publish の conda-forge のレシピ(別のセッションで PR を出している)の URL も直す
+6. 動いたら、aiseed-dev/flet-printing の README に移った先を書いてアーカイブにする(発注者)
 
 weather(「Weather アプリ開発」のセッション)からの部品(2026-10-18 に相談して決めた):
 
@@ -69,5 +70,4 @@ weather(「Weather アプリ開発」のセッション)からの部品(2026-10-
   `publish-nc4rs.yml` は GitHub の上でまだ動かしていない(macOS の Intel は macos-15-intel にした。
   macos-13 は今の runner の一覧に無い、2026-10-18 に確かめた)。手元(Linux)では、netCDF4 1.7.5 と比べて
   7 件とも通った(2026-10-18)
-- cf-publish: PyPI の 0.3.1。試験は `pip install -e .[dev]` と pytest。手元で 68 件とも通った(2026-10-18)
 - flet-printing: PyPI の 0.2.0
