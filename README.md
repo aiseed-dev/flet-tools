@@ -29,6 +29,12 @@ Flet の物でないパッケージ(cf-publish、nc4rs など)は [aiai-tools](h
 の packages/ に置きます。会社や団体のためのスキルも aiai-tools、個人のための物は
 [aiai](https://github.com/aiseed-dev/aiai) にあります。
 
+## 提案（まだ作っていない物）
+
+| 提案 | 何 | 出どころ |
+|---|---|---|
+| [flet-svg / flet-chart](proposals/flet-svg.md) | 字も描く SVG の部品（jovial_svg を包む）と、グラフの部品（fl_chart を包む） | seed の天気の画面（2026-11-07）。Flet の Image は SVG の文字を描かない |
+
 ## 公開
 
 `<パッケージ>-v<版>` のタグ(たとえば `flet-gpumap-v0.1.0`)を push すると、
