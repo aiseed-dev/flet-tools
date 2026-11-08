@@ -23,7 +23,7 @@ env:
   VERSION_FILE: src/myapp/_build_version.py
   TAG_PREFIX: app-v
   # 直す: アプリが使う Flet の版（flet と flet-cli を同じにする）
-  FLET_VERSION: "1.0.4"
+  FLET_VERSION: "1.1.0"
 
 jobs:
   build:

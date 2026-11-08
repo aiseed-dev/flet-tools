@@ -5,7 +5,10 @@ Flet のアプリの Windows 版を、GitHub Actions で組み立てて配るた
 
 [AIseed Weather](https://github.com/aiseed-dev/weather) の配り方から作りました。そちらでは、2026-10-18 に
 `app-v0.1.1` のタグで実際に動かしました。出来た exe の ProductVersion と、アプリの中に出る版が、どちらも
-0.1.1 になることを確かめています(Flet 1.0.4)。
+0.1.1 になることを確かめています(Flet 1.0.4)。雛形の `FLET_VERSION` は 1.1.0 にしてあります。
+
+Flet 1.1 で `flet build windows` は、会社名と製品名の `"` や `\` を自分で逃がすようになりました。前に手で
+逃がしていた所があれば、外してください。
 
 | ファイル | 写す先 | すること |
 |---|---|---|
