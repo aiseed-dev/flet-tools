@@ -1,8 +1,8 @@
 """Printing service control for Flet — native print dialog via the Flutter
 ``printing`` package.
 
-Flet has no built-in printing API (verified against Flet 0.85: nothing
-print/PDF-related is exposed), while Flutter has a mature ``printing``
+Flet has no built-in printing API (verified against Flet 0.85 and 1.1:
+nothing print/PDF-related is exposed), while Flutter has a mature ``printing``
 package (native print dialog, share sheet, PDF rasterization). This
 extension bridges the two, the same way official extensions like
 ``flet-audio`` wrap ``audioplayers``.

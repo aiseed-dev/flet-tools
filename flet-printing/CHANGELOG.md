@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.3.0 (unreleased)
+
+- **Flet 1.1.** Requires `flet>=1.1.0` (Dart `flet: ^1.1.0`, Flutter 3.47).
+  0.2.0 was built against Flet 0.85 and does not build with Flet 1.x.
+- `PdfPreview` keeps working although Flet 1.1 moved Material to
+  `material_ui`: `printing`'s preview widget still uses the Flutter SDK's
+  Material, so the control now supplies the SDK `Theme`, `Material` and
+  `MaterialLocalizations` itself, with colors from the app's theme.
+- `printing` ^5.15.1 (iOS/macOS crash fixes, pdf.js security update).
+
 ## 0.2.0 (2026-07-14)
 
 - **PdfPreview visual control** — display a PDF (scrollable pages) with

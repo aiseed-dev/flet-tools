@@ -50,6 +50,8 @@ git tag flet-printing-vX.Y.Z && git push origin flet-printing-vX.Y.Z
   生命線（flet buildはpipで入ったパッケージ内のFlutterコードを参照する）。
   タグ前に `python -m build --wheel && unzip -l dist/*.whl | grep flutter/`
   で確認する。
-- Fletの新バージョン（0.86等）が出たら、Dart側 `flet: ^0.85.3` の
-  追従バンプが必要（pubの<1.0キャレットはマイナー固定のため）。
+- Dart側は `flet: ^1.1.0`（1.x の間は追従のバンプは要らない）。Flet 1.1 から
+  Material は `material_ui` に移った。`printing` の PdfPreview は SDK の Material で
+  書かれているので、`pdf_preview_control.dart` が SDK の Theme・Material・訳を足して
+  包んでいる。printing が material_ui に移ったら、その包みを外す。
 - PyPI公開はユーザー自身が行う（Claudeはpushしない）。

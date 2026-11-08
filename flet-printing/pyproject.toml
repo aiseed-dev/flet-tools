@@ -9,7 +9,7 @@ authors = [
 ]
 keywords = ["flet", "flutter", "printing", "print", "pdf"]
 dependencies = [
-    "flet>=0.85.3",
+    "flet>=1.1.0",
 ]
 
 [dependency-groups]
