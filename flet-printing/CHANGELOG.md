@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.3.0 (unreleased)
+## 0.3.0 (2026-11-08)
 
 - **Flet 1.1.** Requires `flet>=1.1.0` (Dart `flet: ^1.1.0`, Flutter 3.47).
   0.2.0 was built against Flet 0.85 and does not build with Flet 1.x.

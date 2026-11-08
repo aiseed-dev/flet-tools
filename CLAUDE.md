@@ -39,10 +39,9 @@ flet-printing は、2026-10-18 に発注者の指示で、aiseed-dev/flet-printi
   知らせた先: 「Weather アプリ開発」(2026-11-08)。まだ知らせていない(その日は動いていなかった): 「aiaiの管理者」
   (aiai の紹介ページにパッケージの節を足す)、aiai-tools のセッション(packages/flet-gpumap と
   publish-flet-gpumap.yml を消す)
-- flet-printing: PyPI は 0.2.0(前のリポジトリから出した物)のまま。0.3.0(Flet 1.1)はコミット済みで、まだ
-  出していない。出す前に、pypi.org のプロジェクト flet-printing の Publishing に、このリポジトリの
-  publish-flet-printing.yml(environment `pypi`)を足す(発注者)。タグは `flet-printing-v0.3.0`
-  (手順は flet-printing/RELEASING.md)
+- flet-printing 0.3.0(Flet 1.1)を PyPI に出した(2026-11-08、タグ flet-printing-v0.3.0)。PdfPreview の
+  画面は発注者が見て確かめた。Publishing には前のリポジトリの登録(aiseed-dev/flet-printing、publish.yml)が
+  まだ残っている。前のリポジトリをアーカイブにするときに消す(発注者)
 - 動いたら、GitHub の aiseed-dev/flet-printing の README に移った先を書いてアーカイブにする(発注者)
 
 weather(「Weather アプリ開発」のセッション)からの部品(2026-10-18 に相談して決めた):
