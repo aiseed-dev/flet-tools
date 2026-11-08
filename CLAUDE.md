@@ -32,25 +32,15 @@ flet-printing は、2026-10-18 に発注者の指示で、aiseed-dev/flet-printi
 (6 つのコミットを flet-printing/ の下に移して merge。タグ v0.2.0 は取り込んでいない。GitHub の元には残る)。
 手元の ~/dev/flet-printing は消した。これからは、ここだけで直す。
 
-## 残っていること(2026-10-18 時点)
+## 公開の様子(2026-11-08 時点)
 
-公開までの順番。どれも発注者がする所は発注者がする。
-
-1. GitHub に aiseed-dev/flet-tools を作り、`git push -u origin main`。リポジトリはできていて、a4d2947 までは
-   上がった(2026-10-18)。その後のコミットは、発注者が push する
-1a. push の後、Actions の画面から publish-flet-gpumap.yml と publish-flet-printing.yml を手で動かして
-   (Run workflow)、組み立てを確かめる。手で動かしたときは組み立てだけで、PyPI には出さない(出すのは
-   タグのときだけ)
-2. GitHub の flet-tools に environment `pypi` を作る
-3. pypi.org で、2 つとも Trusted Publishing を登録する(リポジトリ aiseed-dev/flet-tools、ワークフロー
-   `publish-<パッケージ>.yml`、environment `pypi`)。flet-printing は前のリポジトリからの付け替え、
-   flet-gpumap は新しい pending publisher
-4. タグで出す: `flet-gpumap-v0.1.0`。flet-printing は、次の版を出すときからここのタグ
-   (`flet-printing-v…`)を使う(手順は flet-printing/RELEASING.md)
-5. 出たら知らせる: 「Weather アプリ開発」のセッション(weather の ローカルのブランチ prep/flet-gpumap が
-   flet-gpumap==0.1.0 を待っている)、「aiaiの管理者」(aiai の紹介ページにパッケージの節を足す)、
-   aiai-tools のセッション(aiai-tools の packages/flet-gpumap と publish-flet-gpumap.yml を消す)
-6. 動いたら、GitHub の aiseed-dev/flet-printing の README に移った先を書いてアーカイブにする(発注者)
+- flet-gpumap 0.1.0 を PyPI に出した(2026-11-08、タグ flet-gpumap-v0.1.0 で publish-flet-gpumap.yml が
+  出した)。Trusted Publishing は発注者が登録した。GitHub の environment `pypi` は、最初の実行で GitHub が作った
+- flet-printing: PyPI は 0.2.0(前のリポジトリから出した物)のまま。0.3.0(Flet 1.1)はコミット済みで、まだ
+  出していない。出す前に、pypi.org のプロジェクト flet-printing の Publishing に、このリポジトリの
+  publish-flet-printing.yml(environment `pypi`)を足す(発注者)。タグは `flet-printing-v0.3.0`
+  (手順は flet-printing/RELEASING.md)
+- 動いたら、GitHub の aiseed-dev/flet-printing の README に移った先を書いてアーカイブにする(発注者)
 
 weather(「Weather アプリ開発」のセッション)からの部品(2026-10-18 に相談して決めた):
 
@@ -66,4 +56,4 @@ weather(「Weather アプリ開発」のセッション)からの部品(2026-10-
 
 - flet-gpumap: weather の flet-gpufield から改名(Python と Dart のパッケージ名、シェーダーの道)。部品の名前
   GpuField はそのまま。weather の動く地図で、Linux と Web の組み立てと Web での表示を確かめた(2026-10-14)
-- flet-printing: PyPI の 0.2.0。使っている所: officework の sample/flet_insatsu、pykobo の README
+- flet-printing: PyPI の 0.2.0(Flet 0.85 用)。0.3.0 で Flet 1.1 に合わせた。使っている所: officework の sample/flet_insatsu、pykobo の README
