@@ -36,6 +36,9 @@ flet-printing は、2026-10-18 に発注者の指示で、aiseed-dev/flet-printi
 
 - flet-gpumap 0.1.0 を PyPI に出した(2026-11-08、タグ flet-gpumap-v0.1.0 で publish-flet-gpumap.yml が
   出した)。Trusted Publishing は発注者が登録した。GitHub の environment `pypi` は、最初の実行で GitHub が作った
+  知らせた先: 「Weather アプリ開発」(2026-11-08)。まだ知らせていない(その日は動いていなかった): 「aiaiの管理者」
+  (aiai の紹介ページにパッケージの節を足す)、aiai-tools のセッション(packages/flet-gpumap と
+  publish-flet-gpumap.yml を消す)
 - flet-printing: PyPI は 0.2.0(前のリポジトリから出した物)のまま。0.3.0(Flet 1.1)はコミット済みで、まだ
   出していない。出す前に、pypi.org のプロジェクト flet-printing の Publishing に、このリポジトリの
   publish-flet-printing.yml(environment `pypi`)を足す(発注者)。タグは `flet-printing-v0.3.0`
