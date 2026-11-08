@@ -15,7 +15,8 @@ import 'dart:ui' as ui;
 
 import 'package:flet/flet.dart';
 import 'package:flutter/gestures.dart';
-import 'package:flutter/material.dart';
+// Material は使わない（widgets だけ）。Flet 1.1 で Material が material_ui に移っても、1.0 と同じ物で動く
+import 'package:flutter/widgets.dart';
 import 'package:flutter/scheduler.dart';
 
 /// 等緯度経度の格子（北から南の行順）。

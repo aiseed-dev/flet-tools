@@ -8,7 +8,8 @@ environment:
   flutter: ">=1.17.0"
 
 dependencies:
-  flet: ^1.0.4
+  # widgets だけを使うので、Flet 1.0（Flutter 3.44）でも 1.1（material_ui、Flutter 3.47）でも組める
+  flet: ">=1.0.4 <2.0.0"
   flutter:
     sdk: flutter
 
